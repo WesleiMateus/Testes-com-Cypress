@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 describe("Login", () => {
-  it("Login com sucesso", () => {
+  it("Deve logar o usário sem erros", () => {
     cy.visit("/login");
     cy.get("#user").type("teste@gmail.com");
     cy.get("#password").type("123123");
@@ -10,7 +10,7 @@ describe("Login", () => {
     cy.contains("Login realizado");
   });
 
-  it("Login sem user", () => {
+  it("Deve mostrar o erro ao clicar no botão de login sem preencher o email", () => {
     cy.visit("/login");
     cy.get("#password").type("123123");
     cy.get("#btnLogin").click();
@@ -21,14 +21,14 @@ describe("Login", () => {
       .contains("E-mail inválido"); // Metodo then só usado para fins de testes e fixação
   });
 
-  it("Login sem senha", () => {
+  it("Deve mostrar o erro ao clicar no botão de login sem preencher a senha", () => {
     cy.visit("/login");
     cy.get("#user").type("teste@gmail.com");
     cy.get("#btnLogin").click();
     cy.get(".account_form").contains("Senha inválida");
   });
 
-  it("Login sem credenciais", () => {
+  it("Deve mostrar o erro ao clicar no botão de login sem preencher os dados", () => {
     cy.visit("/login");
     cy.get("#btnLogin").click();
     cy.get(".account_form").contains("E-mail inválido");
