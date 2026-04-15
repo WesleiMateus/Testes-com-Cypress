@@ -9,6 +9,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@cypress/grep": "^6.0.0",
     "@types/cypress": "^0.1.6",
     "cypress": "^15.13.1"
   }

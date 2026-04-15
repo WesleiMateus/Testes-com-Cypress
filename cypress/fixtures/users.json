@@ -1,0 +1,17 @@
+{
+  "valido": {
+    "nome": "Weslei Mateus",
+    "email": "weslei@gmail.com",
+    "senha": "123@123"
+  },
+  "nomeVazio": {
+    "nome": " ",
+    "email": "email@gmail.com",
+    "senha": "password123"
+  },
+  "emailInvalido": {
+    "nome": "Weslei Mateus",
+    "email": "Email#123@invalido.com",
+    "senha": "password123"
+  }
+}
