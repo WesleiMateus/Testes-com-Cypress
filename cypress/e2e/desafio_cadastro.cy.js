@@ -8,14 +8,14 @@ describe("Validação de área de cadastro", () => {
   context("Campo de Nome", () => {
     it("validar campo de nome vazio", () => {
       cy.visit("/register")
-        .get("#user")
-        .type(" ")
         .get("#email")
         .type("email@gmail.com")
         .get("#password")
         .type("password123");
       cy.get("#btnRegister").click();
-      cy.get(".account_form").should("be.visible").contains("Nome inválido");
+      cy.get(".account_form")
+        .should("be.visible")
+        .contains("O campo nome deve ser prenchido");
     });
   });
 
@@ -23,9 +23,7 @@ describe("Validação de área de cadastro", () => {
     it("validar campo de E-mail vazio", () => {
       cy.visit("/register")
         .get("#user")
-        .type("Weslei Mateus")
-        .get("#email")
-        .type(" ")
+        .type(this.user.valido.nome)
         .get("#password")
         .type("password123");
       cy.get("#btnRegister").click();
@@ -37,7 +35,7 @@ describe("Validação de área de cadastro", () => {
     it("Validar campo de E-mail, preenchido com E-mail inválido", () => {
       cy.visit("/register")
         .get("#user")
-        .type("Weslei Mateus")
+        .type(this.user.valido.nome)
         .get("#email")
         .type("Email#123@invalido.com")
         .get("#password")
@@ -53,21 +51,19 @@ describe("Validação de área de cadastro", () => {
     it("Validar campo de senha vazio", () => {
       cy.visit("/register")
         .get("#user")
-        .type("Weslei Mateus")
+        .type(this.user.valido.nome)
         .get("#email")
-        .type("email@email.com")
-        .get("#password")
-        .type(" ");
+        .type("email@email.com");
       cy.get("#btnRegister").click();
       cy.get(".account_form")
         .should("be.visible")
         .contains("O campo senha deve ter pelo menos 6 dígitos");
     });
 
-    it("Validar campo de senha, preenchido com senha iválida", () => {
+    it("Validar campo de senha, preenchido com senha inválida", function () {
       cy.visit("/register")
         .get("#user")
-        .type(this.user.nomeVazio.nome)
+        .type(this.user.valido.nome)
         .get("#email")
         .type("email@email.com")
         .get("#password")
@@ -95,9 +91,10 @@ describe("Validação de área de cadastro", () => {
         .should("be.visible")
         .contains("Cadastro realizado");
 
-      cy.get(".swal2-html-container")
-        .should("be.visible")
-        .contains("Bem-vindo Weslei Mateus");
+      cy.get(".swal2-html-container").should(
+        "have.text",
+        `Bem-vindo ${this.user.valido.nome}`,
+      );
     });
   });
 });
