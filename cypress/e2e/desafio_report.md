@@ -12,10 +12,6 @@ validar campo de nome vazio
 
 ##
 
-==============================================================================================================
-
-##
-
 validar campo de E-mail vazio
 
 - Resultado esperado: Erro ao clicar no botão cadastrar, usuário deve preencher um E-mail válido
@@ -25,10 +21,6 @@ validar campo de E-mail vazio
   - Nome: Weslei Mateus
   - E-mail: vazio
   - Senha: password123
-
-##
-
-==============================================================================================================
 
 ##
 
@@ -44,10 +36,6 @@ validar campo de E-mail inválido
 
 ##
 
-==============================================================================================================
-
-##
-
 validar campo de senha vazio
 
 - Resultado esperado: Erro ao clicar no botão cadastrar, usuário deve preencher uma senha de ao menos 6 dígitos.
@@ -60,10 +48,6 @@ validar campo de senha vazio
 
 ##
 
-===============================================================================================================
-
-##
-
 validar campo de senha inválido
 
 - Resultado esperado: Erro ao clicar no botão cadastrar, usuário deve preencher uma senha de ao menos 6 dígitos.
@@ -73,10 +57,6 @@ validar campo de senha inválido
   - Nome: Weslei Mateus
   - E-mail: email@email.com
   - Senha: 123
-
-##
-
-===============================================================================================================
 
 ##
 
