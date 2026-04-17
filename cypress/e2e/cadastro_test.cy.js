@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe("Cadastro", () => {
   it("Deve realizar o cadastro do usuário", () => {
     cy.visit("/register");
