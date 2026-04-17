@@ -1,102 +1,115 @@
 /// <reference types="cypress" />
 
 import { faker } from "@faker-js/faker";
+import registerPage from "../support/pages/registerPage";
 
-describe("Validação de área de cadastro", () => {
-  beforeEach(() => {
-    cy.fixture("users").as("user");
+const screens = ["desktop", "samsung-s10", "iphone-6"];
+const userData = require("../fixtures/users.json");
 
-    cy.visit("/register");
-  });
+screens.forEach((element) => {
 
-  const userData = require("../fixtures/users.json");
+  describe("Validação de área de cadastro", () => {
+    beforeEach(() => {
 
-  context("Campo de Nome", () => {
-    it("validar campo de nome vazio", () => {
-      cy.fillEmail(userData.valido.email);
+      if (element !== "desktop") {
+        cy.viewport(element);
+      }
 
-      cy.fillPassword(userData.valido.senha);
+      cy.fixture("users").as("user");
 
-      cy.registerUser();
-
-      cy.checkMessage("O campo nome deve ser prenchido");
-    });
-  });
-
-  context("Campo de E-mail", () => {
-    it("validar campo de E-mail vazio", () => {
-      // Usando comandos personalisados nos testes para que fiquem mais legíveis e objetivos
-
-      cy.fillName(userData.valido.nome);
-
-      cy.fillPassword(userData.valido.senha);
-
-      cy.registerUser();
-
-      cy.checkMessage("O campo e-mail deve ser prenchido corretamente"); // erro de português proposital em "prenchido" pq no site de testes está assim
+      cy.visit("/register");
     });
 
-    it("Validar campo de E-mail, preenchido com E-mail inválido", () => {
-      // Preenchendo os dados do usuário usando apenas o import normal de dados
 
-      cy.fillName(userData.valido.nome);
+    context("Campo de Nome", () => {
+      it("validar campo de nome vazio", () => {
+        cy.fillEmail(userData.valido.email);
 
-      cy.fillEmail(userData.invalido.email); // Testando apenas o campo de email com dado inválido
+        cy.fillPassword(userData.valido.senha);
 
-      cy.fillPassword(userData.valido.senha);
+        cy.registerUser();
 
-      cy.registerUser();
-
-      cy.checkMessage("O campo e-mail deve ser prenchido corretamente");
-    });
-  });
-
-  context("Campo de Senha", () => {
-    it("Validar campo de senha vazio", function () {
-      cy.get("#user").type(this.user.valido.nome);
-
-      cy.get("#email").type(this.user.valido.email);
-
-      cy.get("#btnRegister").click();
-
-      cy.get(".account_form")
-        .should("be.visible")
-        .contains("O campo senha deve ter pelo menos 6 dígitos");
+        cy.checkMessage("O campo nome deve ser prenchido");
+      });
     });
 
-    it("Validar campo de senha, preenchido com senha inválida", function () {
-      cy.get("#user").type(this.user.valido.nome);
+    context("Campo de E-mail", () => {
+      it("validar campo de E-mail vazio", () => {
+        // Usando comandos personalisados nos testes para que fiquem mais legíveis e objetivos
 
-      cy.get("#email").type(this.user.valido.email);
+        cy.fillName(userData.valido.nome);
 
-      cy.get("#password").type(this.user.invalido.senha);
+        cy.fillPassword(userData.valido.senha);
 
-      cy.get("#btnRegister").click();
+        cy.registerUser();
 
-      cy.get(".account_form")
-        .should("be.visible")
-        .contains("O campo senha deve ter pelo menos 6 dígitos");
+        cy.checkMessage("O campo e-mail deve ser prenchido corretamente"); // erro de português proposital em "prenchido" pq no site de testes está assim
+      });
+
+      it("Validar campo de E-mail, preenchido com E-mail inválido", () => {
+        // Preenchendo os dados do usuário usando apenas o import normal de dados
+
+        registerPage.fillName(userData.valido.nome);
+
+        registerPage.fillEmail(userData.invalido.email); // Testando apenas o campo de email com dado inválido
+
+        registerPage.fillPassword(userData.valido.senha);
+
+        registerPage.registerUser();
+
+        registerPage.checkMessage(
+          "O campo e-mail deve ser prenchido corretamente",
+        );
+      });
     });
-  });
 
-  context("Cadastro com sucesso", () => {
-    it("Cadastro realizado com sucesso!", function () {
-      // Preenchendo os dados do usuário usando fixtures
-      // Usando a lib FakerJs pra gerar dados aleatorios
+    context("Campo de Senha", () => {
+      it("Validar campo de senha vazio", function () {
+        cy.get("#user").type(this.user.valido.nome);
 
-      const randomName = faker.person.fullName();
-      const ramdomEmail = faker.internet.email();
-      const randomPassword = faker.internet.password();
+        cy.get("#email").type(this.user.valido.email);
 
-      cy.get("#user").type(randomName);
+        cy.get("#btnRegister").click();
 
-      cy.get("#email").type(ramdomEmail);
+        cy.get(".account_form")
+          .should("be.visible")
+          .contains("O campo senha deve ter pelo menos 6 dígitos");
+      });
 
-      cy.get("#password").type(randomPassword);
+      it("Validar campo de senha, preenchido com senha inválida", function () {
+        cy.get("#user").type(this.user.valido.nome);
 
-      cy.registerUser();
+        cy.get("#email").type(this.user.valido.email);
 
-      cy.checkRegisterSuccess(randomName);
+        cy.get("#password").type(this.user.invalido.senha);
+
+        cy.get("#btnRegister").click();
+
+        cy.get(".account_form")
+          .should("be.visible")
+          .contains("O campo senha deve ter pelo menos 6 dígitos");
+      });
+    });
+
+    context("Cadastro com sucesso", () => {
+      it("Cadastro realizado com sucesso!", function () {
+        // Preenchendo os dados do usuário usando fixtures
+        // Usando a lib FakerJs pra gerar dados aleatorios
+
+        const randomName = faker.person.fullName();
+        const ramdomEmail = faker.internet.email();
+        const randomPassword = faker.internet.password();
+
+        registerPage.fillName(randomName);
+
+        registerPage.fillEmail(ramdomEmail);
+
+        registerPage.fillPassword(randomPassword);
+
+        cy.registerUser();
+
+        cy.checkRegisterSuccess(randomName);
+      });
     });
   });
 });
